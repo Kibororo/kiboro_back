@@ -1,20 +1,29 @@
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     ports:
       - "8080:8080"
     depends_on:
       - postgres
+    volumes:
+      - ./app/src:/app/src
+    environment:
+      - SPRING_DEVTOOLS_RESTART_ENABLED=true
+      - SPRING_PROFILES_ACTIVE=dev
     develop:
       watch:
         - action: sync
-          path: ./
-          target: /app
-          ignore:
-            - app/.gradle
-            - app/build
+          path: ./src
+          target: /app/src
+        - action: sync
+          path: ./build.gradle
+          target: /app/build.gradle
         - action: rebuild
-          path: Dockerfile
+          path: ./settings.gradle
+          target: /app/settings.gradle
+
   postgres:
     image: "postgres:17-alpine"
     environment:
@@ -25,5 +34,6 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
 volumes:
   postgres_data:

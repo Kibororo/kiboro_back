@@ -21,9 +21,24 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'  
 	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.mapstruct:mapstruct:1.6.3'
+ 
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
+	compileOnly("org.projectlombok:lombok:1.18.42")
+	annotationProcessor("org.projectlombok:lombok:1.18.42")
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	runtimeOnly 'org.postgresql:postgresql'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	developmentOnly("org.springframework.boot:spring-boot-devtools")
+	testCompileOnly("org.projectlombok:lombok:1.18.42")
+	testAnnotationProcessor("org.projectlombok:lombok:1.18.42")
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+}
+
+bootRun {
+    mainClass = 'com.kiboro.kiboro_back.KiboroBackApplication'
+    sourceResources sourceSets.main
 }
 
 tasks.named('test') {

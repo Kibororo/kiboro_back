@@ -1,0 +1,46 @@
+services:
+  web:
+    build:
+      context: ../../app
+      dockerfile: ../dev/Dockerfile.dev
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DEVTOOLS_RESTART_ENABLED=true
+      - SPRING_PROFILES_ACTIVE=dev
+      - DB_URL=jdbc:postgresql://postgres:5432/kiboro_db
+      - DB_USERNAME=devuser
+      - DB_PASSWORD=devpassword
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: ../../app/src
+        - action: sync
+          path: ./build.gradle
+          target: ../../app/build.gradle
+        - action: rebuild
+          path: ./settings.gradle
+          target: ../../app/settings.gradle
+
+  postgres:
+    image: "postgres:17-alpine"
+    environment:
+      POSTGRES_PASSWORD: devpassword
+      POSTGRES_USER: devuser
+      POSTGRES_DB: kiboro_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U devuser -d tonapp_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
