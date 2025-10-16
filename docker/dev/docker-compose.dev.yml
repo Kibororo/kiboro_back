@@ -1,8 +1,9 @@
 services:
   web:
     build:
-      context: ../../app
-      dockerfile: ../dev/Dockerfile.dev
+      context: ../..
+      dockerfile: docker/dev/Dockerfile.dev
+
     ports:
       - "8080:8080"
     depends_on:
@@ -37,7 +38,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./init:/docker-entrypoint-initdb.d
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U devuser -d tonapp_dev"]
+      test: ["CMD-SHELL", "pg_isready -U devuser -d kiboro_db"]
       interval: 10s
       timeout: 5s
       retries: 5

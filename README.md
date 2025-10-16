@@ -1,10 +1,10 @@
 # Commandes dev :
-
-docker-compose -f infra/docker-compose.dev.yml up --build
+cd kiboro_back/docker/dev
+docker-compose -f docker/docker-compose.dev.yml up --build
 
 # Commandes prod :
 
-docker-compose -f infra/docker-compose.prod.yml up -d --build
+docker-compose -f docker/docker-compose.prod.yml up -d --build
 
 # Version simple
 

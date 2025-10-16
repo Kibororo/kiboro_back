@@ -16,16 +16,15 @@ import static com.kiboro.kiboro_back.domain.enums.TechnicalExceptionEnum.NOT_FOU
 @RequiredArgsConstructor
 public class UsersService {
 
-      private final UsersAdapter usersAdapter;
-      private final UsersMapper usersMapper;
+    private final UsersAdapter usersAdapter;
+    private final UsersMapper usersMapper;
 
-      
     public Users createUser( CreateUsersRequest createUserRequest) throws TechnicalException {
-        Users user = usersAdapter.save(UsersMapper.toEntityFromCreateRequest(createUserRequest));
+        Users user = usersAdapter.save(usersMapper.toEntityFromCreateRequest(createUserRequest));
         return user;
     }
 
-       public Users getOne(Long idUser) throws TechnicalException {
+    public Users getOne(Long idUser) throws TechnicalException {
         return usersAdapter.findById(idUser)
                 .orElseThrow(() -> new TechnicalException(NOT_FOUND));
     }
